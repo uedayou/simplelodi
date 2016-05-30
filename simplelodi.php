@@ -74,7 +74,7 @@ include 'easyrdf/lib/Graph.php';
 
 define("DATA_DIR","data/");
 
-define("DEBUG",true);
+define("DEBUG",false);
 
 // Warning 表示しない
 error_reporting(0);
