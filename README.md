@@ -21,20 +21,16 @@
 
 <http://uedayou.net/simplelodi/uedayou>
 
-HTML出力
-
+HTML出力  
 <http://uedayou.net/simplelodi/uedayou.html>
 
-Turtle出力
-
+Turtle出力  
 <http://uedayou.net/simplelodi/uedayou.ttl>
 
-XML出力
-
+XML出力  
 <http://uedayou.net/simplelodi/uedayou.xml>
 
-JSON-LD出力
-
+JSON-LD出力  
 <http://uedayou.net/simplelodi/uedayou.jsonld>
 
 ## インストール・使い方
