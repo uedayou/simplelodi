@@ -6,4 +6,5 @@
     a foaf:Person ;
     foaf:mbox <mailto:yooueda@gmail.com> ;
     foaf:homepage <http://uedayou.net/> ;
-    foaf:name "Hiroshi Ueda" .
+    foaf:name "Hiroshi Ueda" ;
+    foaf:Image <http://uedayou.net/uedayou.jpg> .

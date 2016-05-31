@@ -1,5 +1,8 @@
 <?php
 
+include 'lib/Twig/Autoloader.php';
+Twig_Autoloader::register();
+
 include 'lib/Negotiation/AbstractNegotiator.php';
 include 'lib/Negotiation/Match.php';
 include 'lib/Negotiation/BaseAccept.php';

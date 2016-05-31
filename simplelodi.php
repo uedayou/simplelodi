@@ -14,23 +14,36 @@ define("DATA_DIR","data/");
 define("DATA_TYPE", "turtle");
 define("DATA_EXTENSION", ".ttl");
 
+define("TEMPLATE_HTML", "basic.html");
+
 define("DEBUG",true);
 
 // Warning 表示しない
-error_reporting(0);
+//error_reporting(0);
 
 if (!DEBUG&&!isset($_GET["path"])) {
-	header("HTTP/1.1 404 Not Found");
-	echo "Error!";
+	show404();
 	exit;
 }
 
-$path = DEBUG?"uedayou":$_GET["path"];
+$path = DEBUG?"uedayou.html":$_GET["path"];
+$url = DEBUG?"http://uedayou.net/simplelodi/uedayou":(empty($_SERVER["HTTPS"])?"http://":"https://").$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
+
+$path_parts = pathinfo($path);
+$dir = $path_parts['dirname'];
+$dir = $dir=="."?"":$dir;
+$basename = $path_parts['basename'];
+$extension = $path_parts['extension'];
+$filename = $path_parts['filename'];
+
+if (strlen($extension)>0) {
+	$acceptHeader = getAcceptHeaderByExtension($extension, $acceptHeader);
+}
 
 $negotiator = new \Negotiation\Negotiator();
 
-$priorities   = array(
+$priorities = array(
 	'text/html',
 	'application/rdf+xml',
 	'application/xml',
@@ -59,57 +72,110 @@ if ($mediaType!=null) {
 	$value = 'text/html';
 }
 
-$path = DATA_DIR.$path.DATA_EXTENSION;
-
+$path = DATA_DIR.$dir.$filename.DATA_EXTENSION;
 if (!file_exists($path)) {
 	// ファイルがないとき
-	header("HTTP/1.1 404 Not Found");
-	echo "Error!";
-	exit;
+	$path = DATA_DIR.$dir.$basename.DATA_EXTENSION;
+	if (!file_exists($path)) {
+		// ファイルがないとき
+		show404();
+		exit;
+	}
 }
+
 
 $graph = new \EasyRdf\Graph();
 //$rdf->load();
 //$graph->parse($data, "turtle");
 $graph->parseFile($path, DATA_TYPE);
 
-$format = "turtle";// "php"; // html
-if (preg_match("/xml/i", $value)) {
-	$format = "rdfxml";
-}
-else if ($value=="text/rdf") {
-	$format = "rdfxml";
-}
-else if (preg_match("/ld\+json/i", $value)) {
-	$format = "jsonld";
-}
-else if (preg_match("/json/i", $value)) {
-	$format = "json";
-}
-else if (preg_match("/turtle/i", $value)) {
-	$format = "turtle";
-}
-else if (preg_match("/plain/i", $value)) {
-	$format = "turtle";
-}
-else if (preg_match("/n3/i", $value)) {
-	$format = "n3";
-}
-else if (preg_match("/n-triples/i", $value)) {
-	$format = "ntriples";
-}
+$format = getFormat($value);
 
 $format = \EasyRdf\Format::getFormat($format);
 $output = $graph->serialise($format);
 
+
 if (!is_scalar($output)) {
 	// HTML に変換する
-	// 未実装
-	$output = var_export($output, true);
+	$output = getHTML($output, $url);
 }
 else {
 	header('Content-Type: '.$format->getDefaultMimeType());
-	print $output;
+}
+print $output;
+
+
+function getHTML($data, $url) {
+	$html = "";
+
+	//$loader = new Twig_Loader_String();
+	$loader = new Twig_Loader_Filesystem('templates');
+	$twig = new Twig_Environment($loader);
+	$html = $twig->render(TEMPLATE_HTML, array('data'=>$data, 'url'=>$url));
+
+	return $html;
+}
+
+function getFormat($value) {
+	$format = "php"; // html
+	if (preg_match("/xml/i", $value)) {
+		$format = "rdfxml";
+	}
+	else if ($value=="text/rdf") {
+		$format = "rdfxml";
+	}
+	else if (preg_match("/ld\+json/i", $value)) {
+		$format = "jsonld";
+	}
+	else if (preg_match("/json/i", $value)) {
+		$format = "json";
+	}
+	else if (preg_match("/turtle/i", $value)) {
+		$format = "turtle";
+	}
+	else if (preg_match("/plain/i", $value)) {
+		$format = "turtle";
+	}
+	else if (preg_match("/n3/i", $value)) {
+		$format = "n3";
+	}
+	else if (preg_match("/n-triples/i", $value)) {
+		$format = "ntriples";
+	}
+	return $format;
+}
+
+function getAcceptHeaderByExtension($extension, $acceptHeader) {
+	if ($extension=="jsonld") {
+		$acceptHeader = 'application/ld+json';
+	}
+	else if ($extension=="json") {
+		$acceptHeader = 'application/json';
+	}
+	else if ($extension=="xml") {
+		$acceptHeader = 'application/rdf+xml';
+	}
+	else if ($extension=="rdf") {
+		$acceptHeader = 'application/rdf+xml';
+	}
+	else if ($extension=="ttl") {
+		$acceptHeader = 'application/turtle';
+	}
+	else if ($extension=="n3") {
+		$acceptHeader = 'application/rdf+n3';
+	}
+	else if ($extension=="nt") {
+		$acceptHeader = 'application/n-triples';
+	}
+	else if ($extension=="html") {
+		$acceptHeader = 'text/html';
+	}
+	return $acceptHeader;
+}
+
+function show404() {
+	header("HTTP/1.1 404 Not Found");
+	echo "Error!";
 }
 
 ?>
