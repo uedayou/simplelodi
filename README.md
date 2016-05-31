@@ -21,26 +21,23 @@
 
 <http://uedayou.net/simplelodi/uedayou>
 
-HTML出力
-<http://uedayou.net/simplelodi/uedayou.html>
-
-Turtle出力
-<http://uedayou.net/simplelodi/uedayou.ttl>
-
-XML出力
-<http://uedayou.net/simplelodi/uedayou.xml>
-
-JSON-LD出力
-<http://uedayou.net/simplelodi/uedayou.jsonld>
+HTML出力　　
+<http://uedayou.net/simplelodi/uedayou.html>　　
+Turtle出力　　
+<http://uedayou.net/simplelodi/uedayou.ttl>　　
+XML出力　　
+<http://uedayou.net/simplelodi/uedayou.xml>　　
+JSON-LD出力　　
+<http://uedayou.net/simplelodi/uedayou.jsonld>　　
 
 ## インストール・使い方
 
-(1) simplelodi フォルダをWebサーバ上の任意の場所にコピーしてください。
-(2) simplelodi フォルダをリネームしてください(たとえば、resource など)
-(3) data フォルダに　サンプルファイル(data/uedayou.ttl)を参考にTurtle ファイルを作成し、コピーしてください。
-(4) http:// ... /resource/[拡張子を省略したファイル名] をブラウザで開くと、HTMLが表示されます。
-※ たとえば uedayou.ttl の場合は、 http:// ... /resource/uedayou となります
-(5) 対応する拡張子(対応フォーマット節　参照)をつけると、出力フォーマットを変更できます。
+(1) simplelodi フォルダをWebサーバ上の任意の場所にコピーしてください。　　
+(2) simplelodi フォルダをリネームしてください(たとえば、resource など)　　
+(3) data フォルダに　サンプルファイル(data/uedayou.ttl)を参考にTurtle ファイルを作成し、コピーしてください。　　
+(4) http:// ... /resource/[拡張子を省略したファイル名] をブラウザで開くと、HTMLが表示されます。　　
+※ たとえば uedayou.ttl の場合は、 http:// ... /resource/uedayou となります　　
+(5) 対応する拡張子(対応フォーマット節　参照)をつけると、出力フォーマットを変更できます。　　
 
 ## 利用ライブラリ
 
