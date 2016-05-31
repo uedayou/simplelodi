@@ -34,7 +34,7 @@ $path_parts = pathinfo($path);
 $dir = $path_parts['dirname'];
 $dir = $dir=="."?"":$dir;
 $basename = $path_parts['basename'];
-$extension = $path_parts['extension'];
+$extension = isset($path_parts['extension'])?$path_parts['extension']:"";
 $filename = $path_parts['filename'];
 
 if (strlen($extension)>0) {
