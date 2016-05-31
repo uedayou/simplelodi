@@ -16,7 +16,7 @@ define("DATA_EXTENSION", ".ttl");
 
 define("TEMPLATE_HTML", "basic.html");
 
-define("DEBUG",true);
+define("DEBUG",false);
 
 // Warning 表示しない
 //error_reporting(0);
