@@ -23,10 +23,13 @@
 
 HTML出力
 <http://uedayou.net/simplelodi/uedayou.html>
+
 Turtle出力
 <http://uedayou.net/simplelodi/uedayou.ttl>
+
 XML出力
 <http://uedayou.net/simplelodi/uedayou.xml>
+
 JSON-LD出力
 <http://uedayou.net/simplelodi/uedayou.jsonld>
 
