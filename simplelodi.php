@@ -91,7 +91,6 @@ if (SPARQL_FLAG) {
 	    "content"=>"query=describe <".$url.">"
 	  )
 	);
-	
 	// GET
 	/*
 	$opts = array(
@@ -111,11 +110,9 @@ if (SPARQL_FLAG) {
 		exit;
 	}
 	$graph->parse($text, "turtle");
-
 }
 else {
 	// ローカル Turtleファイルからデータ取得
-	
 	$path = DATA_DIR.$dir.$filename.DATA_EXTENSION;
 	if (!file_exists($path)) {
 		// ファイルがないとき
@@ -126,7 +123,6 @@ else {
 			exit;
 		}
 	}
-
 	$graph->parseFile($path, DATA_TYPE);
 }
 
@@ -134,7 +130,6 @@ $format = getFormat($value);
 
 $format = \EasyRdf\Format::getFormat($format);
 $output = $graph->serialise($format);
-
 
 if (!is_scalar($output)) {
 	// HTML に変換する
