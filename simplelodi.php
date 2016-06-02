@@ -16,10 +16,15 @@ define("DATA_EXTENSION", ".ttl");
 
 define("TEMPLATE_HTML", "basic.html");
 
-define("DEBUG",false);
+// 未サポート
+define("SPARQL_FLAG", false);
+define("SPARQL_ENDPOINT", "http://localhost/sparql");
+
+// デバッグフラグ
+define("DEBUG", false);
 
 // Warning 表示しない
-//error_reporting(0);
+error_reporting(0);
 
 if (!DEBUG&&!isset($_GET["path"])) {
 	show404();
@@ -72,22 +77,58 @@ if ($mediaType!=null) {
 	$value = 'text/html';
 }
 
-$path = DATA_DIR.$dir.$filename.DATA_EXTENSION;
-if (!file_exists($path)) {
-	// ファイルがないとき
-	$path = DATA_DIR.$dir.$basename.DATA_EXTENSION;
-	if (!file_exists($path)) {
-		// ファイルがないとき
+$graph = new \EasyRdf\Graph();
+//$rdf->load();
+
+if (SPARQL_FLAG) {
+	// SPARQLからデータ取得
+	// POST
+	$opts = array(
+	  'http'=>array(
+	    'method'=>"POST",
+	    'header'=>"Accept: text/turtle\r\nContent-Type: application/x-www-form-urlencoded\r\n",
+	    //"content"=>"query=describe <http://linkdata.org/resource/rdf1s947i#".$filename.">"
+	    "content"=>"query=describe <".$url.">"
+	  )
+	);
+	
+	// GET
+	/*
+	$opts = array(
+	  'http'=>array(
+	    'method'=>"GET",
+	    'header'=>"Accept: text/turtle\r\n",
+	    //"content"=>"query=describe <http://linkdata.org/resource/rdf1s947i#".$filename.">"
+	    "content"=>"query=describe <".$url.">"
+	  )
+	);
+	*/
+	$context = stream_context_create($opts);
+	$endpoint = SPARQL_ENDPOINT;
+	$text = file_get_contents($endpoint, false, $context);
+	if ($text==false) {
 		show404();
 		exit;
 	}
+	$graph->parse($text, "turtle");
+
 }
+else {
+	// ローカル Turtleファイルからデータ取得
+	
+	$path = DATA_DIR.$dir.$filename.DATA_EXTENSION;
+	if (!file_exists($path)) {
+		// ファイルがないとき
+		$path = DATA_DIR.$dir.$basename.DATA_EXTENSION;
+		if (!file_exists($path)) {
+			// ファイルがないとき
+			show404();
+			exit;
+		}
+	}
 
-
-$graph = new \EasyRdf\Graph();
-//$rdf->load();
-//$graph->parse($data, "turtle");
-$graph->parseFile($path, DATA_TYPE);
+	$graph->parseFile($path, DATA_TYPE);
+}
 
 $format = getFormat($value);
 
