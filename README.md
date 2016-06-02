@@ -30,6 +30,9 @@ Turtle出力
 XML出力  
 <http://uedayou.net/simplelodi/uedayou.xml>
 
+JSON出力  
+<http://uedayou.net/simplelodi/uedayou.json>
+
 JSON-LD出力  
 <http://uedayou.net/simplelodi/uedayou.jsonld>
 
@@ -38,9 +41,13 @@ JSON-LD出力
 (1) simplelodi フォルダをWebサーバ上の任意の場所にコピーしてください。  
 (2) simplelodi フォルダをリネームしてください(たとえば、resource など)  
 (3) data フォルダに　サンプルファイル(data/uedayou.ttl)を参考にTurtle ファイルを作成し、拡張子を`ttl`としてコピーしてください。  
-(4) http:// ... /resource/[拡張子を省略したファイル名] をブラウザで開くと、HTMLが表示されます。  
-※ たとえば uedayou.ttl の場合は、 http:// ... /resource/uedayou となります  
+(4) `http:// ... /resource/[拡張子を省略したファイル名]` をブラウザで開くと、HTMLが表示されます。  
+※ たとえば uedayou.ttl の場合は、 `http:// ... /resource/uedayou` となります  
 (5) 対応する拡張子(対応フォーマット節　参照)をつけると、出力フォーマットを変更できます。  
+
+あわせて、こちらもご覧ください。　　
+
+[比較的簡単にDBpediaのようにLinked Open Data(LOD)を公開する方法](http://qiita.com/uedayou/items/d66b7c406f1f231347f5)
 
 ## 利用ライブラリ
 

@@ -26,7 +26,7 @@ if (!DEBUG&&!isset($_GET["path"])) {
 	exit;
 }
 
-$path = DEBUG?"uedayou.html":$_GET["path"];
+$path = DEBUG?"uedayou.xml":$_GET["path"];
 $url = DEBUG?"http://uedayou.net/simplelodi/uedayou":(empty($_SERVER["HTTPS"])?"http://":"https://").$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
 
