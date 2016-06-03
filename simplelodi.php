@@ -32,9 +32,11 @@ if (!DEBUG&&!isset($_GET["path"])) {
 }
 
 $path = DEBUG?"uedayou.xml":$_GET["path"];
+$path = urldecode($path);
 $url = DEBUG?"http://uedayou.net/simplelodi/uedayou":(empty($_SERVER["HTTPS"])?"http://":"https://").$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
 
+setlocale(LC_ALL, 'ja_JP.UTF-8');
 $path_parts = pathinfo($path);
 $dir = $path_parts['dirname'];
 $dir = $dir=="."?"":$dir;
