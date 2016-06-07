@@ -136,7 +136,6 @@ class SimpleLODI {
 
 	private function setGraphFromSparql(&$graph) {
 		// SPARQLからデータ取得
-		// POST
 		$opts = array(
 		  'http'=>array(
 		    'method'=>$this->sparql_request_type,
