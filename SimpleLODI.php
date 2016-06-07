@@ -57,7 +57,7 @@ class SimpleLODI {
 		$this->use_sparql = isset($options["USE_SPARQL"])?$options["USE_SPARQL"]:$this->use_sparql;
 		$this->sparql_endpoint = isset($options["SPARQL_ENDPOINT"])?$options["SPARQL_ENDPOINT"]:$this->sparql_endpoint;
 		$this->sparql_request_type = isset($options["SPARQL_REQUEST_TYPE"])?$options["SPARQL_REQUEST_TYPE"]:$this->sparql_request_type;
-    }
+	}
 
 	public function initialize($path,$url,$acceptHeader) {
 		if ($this->notFound) break;
@@ -231,7 +231,7 @@ class SimpleLODI {
 		if ($this->notFound) break;
 		header("HTTP/1.1 404 Not Found");
 		echo "Error!";
-		$this->$notFound = true;
+		$this->notFound = true;
 	}
 
 
