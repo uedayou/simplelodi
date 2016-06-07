@@ -1,8 +1,8 @@
-DirectoryIndex simplelodi.php
+DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule (.*) simplelodi.php?path=$1
+  RewriteRule (.*) index.php?path=$1
 </IfModule>
