@@ -128,7 +128,7 @@ class SimpleLODI {
 			if (!file_exists($path)) {
 				// ファイルがないとき
 				$this->show404();
-				break;
+				return;
 			}
 		}
 		$graph->parseFile($path, $this->data_type);
@@ -149,7 +149,7 @@ class SimpleLODI {
 		$text = file_get_contents($endpoint, false, $context);
 		if ($text==false) {
 			$this->show404();
-			break;
+			return;
 		}
 		$graph->parse($text, "turtle");
 	}
