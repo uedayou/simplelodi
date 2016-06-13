@@ -11,7 +11,7 @@ class SimpleLODI {
 	protected $data_dir = "data/";
 	protected $data_type = "turtle";
 	protected $data_extension = ".ttl";
-	protected $template_html = "basic.html";
+	protected $template_html = "basic.tmpl";
 	protected $use_sparql = false;
 	protected $sparql_endpoint = "http://localhost/sparql";
 	protected $sparql_request_type = "POST"; // GET or POST
@@ -22,10 +22,10 @@ class SimpleLODI {
 
 	private $acceptHeader = null;
 
-	private $dir = null;
-	private $basename = null;
-	private $extension = null;
-	private $filename = null;
+	protected $dir = null;
+	protected $basename = null;
+	protected $extension = null;
+	protected $filename = null;
 
 	private $mediaType = 'text/html';
 
@@ -64,6 +64,7 @@ class SimpleLODI {
 		$this->url = $url;
 		$this->acceptHeader = $acceptHeader;
 		setlocale(LC_ALL, 'ja_JP.UTF-8');
+		//setlocale(LC_ALL, 'Japanese_Japan.932');
 		$path_parts = pathinfo($path);
 		$this->dir = $path_parts['dirname'];
 		$this->dir = $this->dir=="."?"":$this->dir;
