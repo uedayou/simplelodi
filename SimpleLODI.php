@@ -60,7 +60,7 @@ class SimpleLODI {
 	}
 
 	public function initialize($path,$url,$acceptHeader) {
-		if ($this->notFound) break;
+		if ($this->notFound) return;
 		$this->url = $url;
 		$this->acceptHeader = $acceptHeader;
 		setlocale(LC_ALL, 'ja_JP.UTF-8');
@@ -90,9 +90,9 @@ class SimpleLODI {
 	}
 
 	public function output() {
-		if ($this->notFound) break;
+		if ($this->notFound) return;
 		$graph = $this->getGraph();
-		if ($this->notFound) break;
+		if ($this->notFound) return;
 
 		$format = $this->getFormat($this->mediaType);
 
@@ -229,7 +229,7 @@ class SimpleLODI {
 	}
 
 	function show404() {
-		if ($this->notFound) break;
+		if ($this->notFound) return;
 		header("HTTP/1.1 404 Not Found");
 		echo "Error!";
 		$this->notFound = true;
