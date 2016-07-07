@@ -140,7 +140,8 @@ class SimpleLODI {
 		$opts = array(
 		  'http'=>array(
 		    'method'=>$this->sparql_request_type,
-		    'header'=>"Accept: text/turtle\r\n"
+		    //'header'=>"Accept: text/turtle\r\n"
+		    'header'=>"Accept: application/n-triples\r\n"
 		    .($this->sparql_request_type=="POST"?"Content-Type: application/x-www-form-urlencoded\r\n":""),
 		    "content"=>"query=".$this->getSparqlQuery()
 		  )
@@ -152,7 +153,8 @@ class SimpleLODI {
 			$this->show404();
 			return;
 		}
-		$graph->parse($text, "turtle");
+		//$graph->parse($text, "turtle");
+		$graph->parse($text, "ntriples");
 	}
 
 	protected function getSparqlQuery() {
