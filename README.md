@@ -1,6 +1,7 @@
 # Simple LODI : Simple Linked Open Data Interface
 
-コンテントネゴシエーションや拡張子変更により、RDF(Turtle)ファイルをさまざまなフォーマットで出力ができるLODフロントエンドプログラムです。
+コンテントネゴシエーションや拡張子変更により、RDFファイルをさまざまなフォーマットで出力ができるLODフロントエンドプログラムです。
+対応する入力フォーマットは、RDF/XML(拡張子：xml)、N-Triples(拡張子:nt)、Turtle(拡張子:ttl)です。
 
 ## 対応フォーマット(拡張子)
 
@@ -36,14 +37,15 @@ JSON出力
 JSON-LD出力  
 <http://uedayou.net/simplelodi/uedayou.jsonld>
 
-## インストール・使い方
+## インストール・使い方(Turtleファイルの場合)
 
 (1) simplelodi フォルダをWebサーバ上の任意の場所にコピーしてください。  
 (2) simplelodi フォルダをリネームしてください(たとえば、resource など)  
 (3) data フォルダに　サンプルファイル(data/uedayou.ttl)を参考にTurtle ファイルを作成し、拡張子を`ttl`としてコピーしてください。  
-(4) `http:// ... /resource/[拡張子を省略したファイル名]` をブラウザで開くと、HTMLが表示されます。  
-※ たとえば uedayou.ttl の場合は、 `http:// ... /resource/uedayou` となります  
-(5) 対応する拡張子(対応フォーマット節　参照)をつけると、出力フォーマットを変更できます。  
+(4) `http:// ... /resource/[拡張子を省略したファイル名]` をブラウザで開くと、HTMLが表示されます。 たとえば uedayou.ttl の場合は、 `http:// ... /resource/uedayou` となります  
+(5) 対応する拡張子(対応フォーマット節　参照)をつけると、出力フォーマットを変更できます。 
+
+※ RDF/XMLであれば拡張子をxmlに、N-Triplesであれば拡張子をntとしてください。
 
 あわせて、こちらもご覧ください。　　
 

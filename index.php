@@ -11,15 +11,31 @@ $path = urldecode($path);
 $url = DEBUG?"http://uedayou.net/simplelodi/uedayou":(empty($_SERVER["HTTPS"])?"http://":"https://").$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
 
+// デフォルトはxml,nt,ttlのいずれかの拡張子を自動識別して、
+// 拡張子に対応した解析方式 (rdf/xml、n-triples、turtle) により解析します。
 $options = array();
 
-// 2016年7月現在 easyrdf　による Turtleファイルの解析が異常に遅いので、
-// 10KB以上のRDFファイルを扱いたい場合は、TurtleファイルをRDF/XMLに変換し、拡張子をxmlに変更して
-// 以下のコメントアウトをはずしてください。
+// RDF/XML のみ使用する場合 
 /*
 $options = array(
     "DATA_TYPE"=>"rdfxml",
     "DATA_EXTENSION"=>".xml",
+);
+*/
+
+// N-Triples のみ使用する場合 
+/*
+$options = array(
+    "DATA_TYPE"=>"ntriples",
+    "DATA_EXTENSION"=>".nt",
+);
+*/
+
+// Turtle のみ使用する場合 
+/*
+$options = array(
+    "DATA_TYPE"=>"turtle",
+    "DATA_EXTENSION"=>".ttl",
 );
 */
 

@@ -9,7 +9,7 @@
 class SimpleLODI {
 	
 	protected $data_dir = "data/";
-	protected $data_type = "turtle";
+	protected $data_type = "auto"; // auto, turtle, rdfxml, ntriples, jsonld, n3
 	protected $data_extension = ".ttl";
 	protected $template_html = "basic.tmpl";
 	protected $use_sparql = false;
@@ -121,18 +121,56 @@ class SimpleLODI {
 	}
 
 	private function setGraphFromFilesystem(&$graph) {
-		// ローカル Turtleファイルからデータ取得
-		$path = $this->data_dir.$this->dir.$this->filename.$this->data_extension;
-		if (!file_exists($path)) {
-			// ファイルがないとき
-			$path = $this->data_dir.$this->dir.$this->basename.$this->data_extension;
-			if (!file_exists($path)) {
-				// ファイルがないとき
-				$this->show404();
-				return;
+		$path = $type = false;
+		if($this->data_type=="auto") {
+			$rt = $this->searchRdfFilePath();
+			if (is_array($rt)) {
+				$path = $rt["path"];
+				$type = $rt["type"];
+			}
+		} else {
+			$path = $this->getRdfFilePath($this->data_extension);
+			if (is_string($path)) {
+				$type = $this->data_type;
 			}
 		}
-		$graph->parseFile($path, $this->data_type);
+		if ($path==false) {
+			$this->show404();
+			return;
+		}
+		$graph->parseFile($path, $type);
+	}
+
+	private function searchRdfFilePath() {
+		// rdf/xml
+		$path = $this->getRdfFilePath(".xml");
+		if (is_string($path)) {
+			return array("path"=>$path,"type"=>"rdfxml");
+		}
+		// n-triples
+		$path = $this->getRdfFilePath(".nt");
+		if (is_string($path)) {
+			return array("path"=>$path,"type"=>"ntriples");
+		}
+		// turtle
+		$path = $this->getRdfFilePath(".ttl");
+		if (is_string($path)) {
+			return array("path"=>$path,"type"=>"turtle");
+		}
+		return false;
+	}
+
+	private function getRdfFilePath($extension) {
+		$path = $this->data_dir.$this->dir.$this->filename.$extension;
+		if (!file_exists($path)) {
+			// ファイルがないとき
+			$path = $this->data_dir.$this->dir.$this->basename.$extension;
+			if (!file_exists($path)) {
+				// ファイルがないとき
+				return false;
+			}
+		}
+		return $path;
 	}
 
 	private function setGraphFromSparql(&$graph) {
