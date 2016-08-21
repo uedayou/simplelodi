@@ -27,6 +27,9 @@ class SimpleLODI {
 	protected $extension = null;
 	protected $filename = null;
 
+	// 文字コード自動判別モード
+	protected $encoding_autodetectmode = false;
+
 	private $mediaType = 'text/html';
 
 	public $notFound = false;
@@ -57,6 +60,7 @@ class SimpleLODI {
 		$this->use_sparql = isset($options["USE_SPARQL"])?$options["USE_SPARQL"]:$this->use_sparql;
 		$this->sparql_endpoint = isset($options["SPARQL_ENDPOINT"])?$options["SPARQL_ENDPOINT"]:$this->sparql_endpoint;
 		$this->sparql_request_type = isset($options["SPARQL_REQUEST_TYPE"])?$options["SPARQL_REQUEST_TYPE"]:$this->sparql_request_type;
+		$this->encoding_autodetectmode = isset($options["ENCODING_AUTODETECT_MODE"])?$options["ENCODING_AUTODETECT_MODE"]:$this->encoding_autodetectmode;
 	}
 
 	public function initialize($path,$url,$acceptHeader) {
@@ -138,7 +142,23 @@ class SimpleLODI {
 			$this->show404();
 			return;
 		}
-		$graph->parseFile($path, $type);
+		if ($this->encoding_autodetectmode) {
+			// 文字コード自動判別モード
+			$text = file_get_contents($path);
+			$encoding = false;
+			foreach(array('UTF-8','SJIS-win','SJIS','EUC-JP','ASCII','JIS') as $ccode){
+			  if(strcmp(mb_convert_encoding($text, $ccode, $ccode),$text)==0){
+			    $encoding = $ccode;
+			    break;
+			  }
+			}
+			if($encoding!==false){
+				$text = mb_convert_encoding($text, "utf8", $encoding);
+			}
+			$graph->parse($text, $type);
+		} else {
+			$graph->parseFile($path, $type);
+		}
 	}
 
 	private function searchRdfFilePath() {

@@ -21,21 +21,22 @@
 			<td>{{ key }}</td>
 		{%- endif -%}
 
-		{%- if val[0] is defined and val[0].value is defined -%}
-
-			{% if val[0].value matches '{^https?://.+?\.(jpg|jpeg|gif|png)$}' -%}
-				<td><a href="{{ val[0].value }}" target="_blank"><img src="{{ val[0].value }}" /></a></td>
-			{% elseif val[0].value matches '{^https?://.+$}' -%}
-				<td><a href="{{ val[0].value }}" target="_blank">{{ val[0].value }}</a></td>
-			{% elseif val[0].value matches '{^mailto:.+$}' -%}
-				<td><a href="{{ val[0].value }}" target="_blank">{{ val[0].value }}</a></td>
-			{% else -%}
-				<td>{{ val[0].value }}</td>
-			{%- endif -%}
-
-		{%- else -%}
-			<td>valueの取得に失敗しました</td>
-		{% endif -%}
+		<td>
+			{%- for v in val -%}
+				{%- if v is defined and v.value is defined -%}
+					{% if v.value matches '{^https?://.+?\.(jpg|jpeg|gif|png)$}' -%}
+						<a href="{{ v.value }}" target="_blank"><img src="{{ v.value }}" /></a>
+					{% elseif v.value matches '{^https?://.+$}' -%}
+						<a href="{{ v.value }}" target="_blank">{{ v.value }}</a>
+					{% elseif v.value matches '{^mailto:.+$}' -%}
+						<a href="{{ v.value }}" target="_blank">{{ v.value }}</a>
+					{% else -%}
+						{{ v.value }}
+					{%- endif -%}
+					<br>
+				{%- endif -%}
+			{% endfor -%}
+		</td>
 
 		</tr>
 	{% endfor -%}

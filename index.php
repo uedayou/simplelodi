@@ -48,6 +48,15 @@ $options = array(
 );
 */
 
+// 文字コード自動判別モード オン
+// ※ dataフォルダの中のファイルの文字エンコードがまちまちの場合は、true にしてください。
+// ※ 文字コードを自動判別するようになりますが、誤判定することもあります。
+/*
+$options = array(
+    "ENCODING_AUTODETECT_MODE"=>true
+);
+*/
+
 $simplelodi = new SimpleLODI($options);
 
 $simplelodi->initialize($path, $url, $acceptHeader);
