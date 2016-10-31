@@ -70,7 +70,7 @@ class SimpleLODI {
 		setlocale(LC_ALL, 'ja_JP.UTF-8');
 		//setlocale(LC_ALL, 'Japanese_Japan.932');
 		$path_parts = pathinfo($path);
-		$this->dir = $path_parts['dirname'];
+		$this->dir = $path_parts['dirname']."/";
 		$this->dir = $this->dir=="."?"":$this->dir;
 		$this->basename = $path_parts['basename'];
 		$this->extension = isset($path_parts['extension'])?$path_parts['extension']:"";
