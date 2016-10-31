@@ -155,6 +155,8 @@ class SimpleLODI {
 			if($encoding!==false){
 				$text = mb_convert_encoding($text, "utf8", $encoding);
 			}
+			// UTF8 BOM 削除
+			$text = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $text);
 			$graph->parse($text, $type);
 		} else {
 			$graph->parseFile($path, $type);
