@@ -76,4 +76,4 @@ JSON-LD
 
 ## Notice
 
-If your Turtle file size is bigger than 10 MB, it may take a long time to load it. In this case, please convert your Turtle file to RDF/XML or N-Triples format in advance. And then please do it again.
+If your Turtle file size is bigger than 10 kB, it may take a long time to load it. In this case, please convert your Turtle file to RDF/XML or N-Triples format in advance. And then please do it again.
