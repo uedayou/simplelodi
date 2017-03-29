@@ -14,6 +14,14 @@ $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
 // デフォルトはxml,nt,ttlのいずれかの拡張子を自動識別して、
 // 拡張子に対応した解析方式 (rdf/xml、n-triples、turtle) により解析します。
 $options = array();
+$prefixes = array();
+
+// PREFIX追加(共通語彙基盤は既に登録済み)
+/*
+$prefixes = array(
+    "pb"=>"http://uedayou.net/lod/property/",
+);
+*/
 
 // RDF/XML のみ使用する場合 
 /*
@@ -57,7 +65,10 @@ $options = array(
 );
 */
 
-$simplelodi = new SimpleLODI($options);
+// CORS
+//header("Access-Control-Allow-Origin: *");
+
+$simplelodi = new SimpleLODI($options, $prefixes);
 
 $simplelodi->initialize($path, $url, $acceptHeader);
 

@@ -52,7 +52,7 @@ class SimpleLODI {
 		'application/json'
 		);
 
-	public function __construct($options=null) {
+	public function __construct($options=null, $prefixes=null) {
 		$this->data_dir = isset($options["DATA_DIR"])?$options["DATA_DIR"]:$this->data_dir;
 		$this->data_type = isset($options["DATA_TYPE"])?$options["DATA_TYPE"]:$this->data_type;
 		$this->data_extension = isset($options["DATA_EXTENSION"])?$options["DATA_EXTENSION"]:$this->data_extension;
@@ -61,6 +61,16 @@ class SimpleLODI {
 		$this->sparql_endpoint = isset($options["SPARQL_ENDPOINT"])?$options["SPARQL_ENDPOINT"]:$this->sparql_endpoint;
 		$this->sparql_request_type = isset($options["SPARQL_REQUEST_TYPE"])?$options["SPARQL_REQUEST_TYPE"]:$this->sparql_request_type;
 		$this->encoding_autodetectmode = isset($options["ENCODING_AUTODETECT_MODE"])?$options["ENCODING_AUTODETECT_MODE"]:$this->encoding_autodetectmode;
+
+		// 共通語彙基盤 NS追加
+		\EasyRdf\RdfNamespace::set('ic', "http://imi.go.jp/ns/core/rdf#");
+		\EasyRdf\RdfNamespace::set('ic22', "http://imi.ipa.go.jp/ns/core/rdf#");
+
+		if (isset($prefixes)&&is_array($prefixes)) {
+			foreach($prefixes as $k=>$v) {
+				\EasyRdf\RdfNamespace::set($k, $v);
+			}
+		}
 	}
 
 	public function initialize($path,$url,$acceptHeader) {
