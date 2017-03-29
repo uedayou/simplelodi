@@ -230,6 +230,8 @@ class SimpleLODI {
 	protected function getSparqlQuery() {
 		//return "describe <http://linkdata.org/resource/rdf1s947i#".$this->filename.">";
 		return "describe <".$this->url.">";
+		// ブランクノードへの対応
+		//return "CONSTRUCT {<".$this->url."> ?y ?z. ?z ?w ?v } WHERE {<".$this->url."> ?y ?z. OPTIONAL {?z ?w ?v. FILTER (isBlank(?z))} }";
 	}
 
 	function getHTML($data, $url) {
