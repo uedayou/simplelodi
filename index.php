@@ -66,7 +66,7 @@ $options = array(
 */
 
 // CORS
-//header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: *");
 
 $simplelodi = new SimpleLODI($options, $prefixes);
 

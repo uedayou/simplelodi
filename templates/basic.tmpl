@@ -2,13 +2,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{{url}}</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
+<div class="container">
 {% for uri,rdfs in data -%}
+{% if uri matches '{^(?!_:).+$}i' -%}
 
-	<h3>{{uri}}</h3>
-	<table border="1">
-
+	<div class="jumbotron">
+		<div class="container">
+			<h2>{{uri}}</h2>
+		</div>
+	</div>
+	
+	<table class="table  table-bordered">
 	{% if rdfs|length == 0 -%}
 		<tr><td colspan="2">データがありません</td></tr>
 	{% endif -%}
@@ -16,15 +25,17 @@
 	{% for key,val in rdfs -%}
 		<tr>
 		{% if key matches '{^https?://.+$}' -%}
-			<td><a href="{{ key }}" target="_blank">{{ key }}</a></td>
+			<th><a href="{{ key }}" target="_blank">{{ key }}</a></th>
 		{%- else -%}
-			<td>{{ key }}</td>
+			<th>{{ key }}</th>
 		{%- endif -%}
 
 		<td>
 			{%- for v in val -%}
 				{%- if v is defined and v.value is defined -%}
-					{% if v.value matches '{^https?://.+?\.(jpg|jpeg|gif|png)$}' -%}
+					{% if v.type is defined and v.type == "bnode" %}
+						{{ my_function(v.value, data) }}
+					{% elseif v.value matches '{^https?://.+?\.(jpg|jpeg|gif|png)$}' -%}
 						<a href="{{ v.value }}" target="_blank"><img src="{{ v.value }}" /></a>
 					{% elseif v.value matches '{^https?://.+$}' -%}
 						<a href="{{ v.value }}" target="_blank">{{ v.value }}</a>
@@ -33,7 +44,7 @@
 					{% else -%}
 						{{ v.value }}
 					{%- endif -%}
-					<br>
+					
 				{%- endif -%}
 			{% endfor -%}
 		</td>
@@ -42,7 +53,8 @@
 	{% endfor -%}
 
 	</table>
+{% endif -%}
 {% endfor -%}
-
+</div>
 </body>
 </html>

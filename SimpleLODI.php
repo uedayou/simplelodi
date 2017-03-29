@@ -240,6 +240,31 @@ class SimpleLODI {
 		//$loader = new Twig_Loader_String();
 		$loader = new Twig_Loader_Filesystem('templates');
 		$twig = new Twig_Environment($loader);
+
+		$function = new Twig_SimpleFunction('my_function', function ($val,$_data) {
+			$islink = function($text) {
+				if ( preg_match('{^https?://.+?\.(jpg|jpeg|gif|png)$}i' ,$text ) ){
+					return '<a href="'.$text.'" target="_blank"><img src="'.$text.'" /></a>';
+				} else if (preg_match('{^https?://.+$}i', $text) ){
+					return '<a href="'.$text.'" target="_blank">'.$text.'</a>';
+				} else if (preg_match('{^mailto:.+$}i', $text) ){
+					return '<a href="'.$text.'" target="_blank">'.$text.'</a>';
+				}
+				return $text;
+			};
+			$d = $_data[$val];
+			echo "<table class='table table-bordered'>";
+			foreach($d as $k=>$v ) {
+				echo "<tr><th>".$islink($k)."</th><td>";
+				foreach($v as $vo) {
+					echo $islink($vo["value"])."<br>";
+				}
+				echo "</td></tr>";
+			}
+			echo "</table>";
+		});
+		$twig->addFunction($function);
+
 		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$url));
 
 		return $html;
