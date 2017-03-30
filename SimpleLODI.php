@@ -15,6 +15,7 @@ class SimpleLODI {
 	protected $use_sparql = false;
 	protected $sparql_endpoint = "http://localhost/sparql";
 	protected $sparql_request_type = "POST"; // GET or POST
+	protected $sparql_use_virtuoso = false;
 
 	private $path = null;
 
@@ -58,6 +59,7 @@ class SimpleLODI {
 		$this->data_extension = isset($options["DATA_EXTENSION"])?$options["DATA_EXTENSION"]:$this->data_extension;
 		$this->template_html = isset($options["TEMPLATE_HTML"])?$options["TEMPLATE_HTML"]:$this->template_html;
 		$this->use_sparql = isset($options["USE_SPARQL"])?$options["USE_SPARQL"]:$this->use_sparql;
+		$this->sparql_use_virtuoso = isset($options["USE_VIRTUOSO"])?$options["USE_VIRTUOSO"]:$this->sparql_use_virtuoso;
 		$this->sparql_endpoint = isset($options["SPARQL_ENDPOINT"])?$options["SPARQL_ENDPOINT"]:$this->sparql_endpoint;
 		$this->sparql_request_type = isset($options["SPARQL_REQUEST_TYPE"])?$options["SPARQL_REQUEST_TYPE"]:$this->sparql_request_type;
 		$this->encoding_autodetectmode = isset($options["ENCODING_AUTODETECT_MODE"])?$options["ENCODING_AUTODETECT_MODE"]:$this->encoding_autodetectmode;
@@ -207,18 +209,25 @@ class SimpleLODI {
 
 	private function setGraphFromSparql(&$graph) {
 		// SPARQLからデータ取得
-		$opts = array(
-		  'http'=>array(
-		    'method'=>$this->sparql_request_type,
-		    //'header'=>"Accept: text/turtle\r\n"
-		    'header'=>"Accept: application/n-triples\r\n"
-		    .($this->sparql_request_type=="POST"?"Content-Type: application/x-www-form-urlencoded\r\n":""),
-		    "content"=>"query=".$this->getSparqlQuery()
-		  )
-		);
-		$context = stream_context_create($opts);
-		$endpoint = $this->sparql_endpoint;
-		$text = file_get_contents($endpoint, false, $context);
+		$text = false;
+		if ($this->sparql_use_virtuoso) {
+			// RDFストアが Virtuosoの場合
+			$endpoint = $this->sparql_endpoint."?format=text/plain&query=".urlencode($this->getSparqlQuery());
+			$text = file_get_contents($endpoint);
+		} else {
+			$opts = array(
+				'http'=>array(
+					'method'=>$this->sparql_request_type,
+					//'header'=>"Accept: text/turtle\r\n"
+					'header'=>"Accept: application/n-triples\r\n"
+					.($this->sparql_request_type=="POST"?"Content-Type: application/x-www-form-urlencoded\r\n":""),
+					"content"=>"query=".$this->getSparqlQuery()
+				)
+			);
+			$context = stream_context_create($opts);
+			$endpoint = $this->sparql_endpoint;
+			$text = file_get_contents($endpoint, false, $context);
+		}
 		if ($text==false) {
 			$this->show404();
 			return;
@@ -229,9 +238,9 @@ class SimpleLODI {
 
 	protected function getSparqlQuery() {
 		//return "describe <http://linkdata.org/resource/rdf1s947i#".$this->filename.">";
-		return "describe <".$this->url.">";
+		//return "describe <".$this->url.">";
 		// ブランクノードへの対応
-		//return "CONSTRUCT {<".$this->url."> ?y ?z. ?z ?w ?v } WHERE {<".$this->url."> ?y ?z. OPTIONAL {?z ?w ?v. FILTER (isBlank(?z))} }";
+		return "CONSTRUCT {<".$this->url."> ?y ?z. ?z ?w ?v } WHERE {<".$this->url."> ?y ?z. OPTIONAL {?z ?w ?v. FILTER (isBlank(?z))} }";
 	}
 
 	function getHTML($data, $url) {
@@ -265,9 +274,28 @@ class SimpleLODI {
 		});
 		$twig->addFunction($function);
 
-		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$url));
+		$this->getTitleFromRDF($data,$url);
+
+		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$url, 'title'=>$this->getTitleFromRDF($data,$url)));
 
 		return $html;
+	}
+
+	function getTitleFromRDF($data, $url) {
+		$d = $data[$url];
+		$lprops = array(
+			"http://xmlns.com/foaf/0.1/name",
+			"http://purl.org/dc/elements/1.1/title",
+			"http://purl.org/dc/terms/title",
+			"http://schema.org/name",
+			"http://www.w3.org/2000/01/rdf-schema#label"
+		);
+		foreach( $lprops as $p) {
+			if ( isset($d[$p])) {
+				return $d[$p][0]["value"];
+			}
+		}
+		return $url;
 	}
 
 	function getFormat($value) {

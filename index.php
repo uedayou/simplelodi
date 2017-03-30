@@ -48,9 +48,11 @@ $options = array(
 */
 
 // SPARQLは現在未サポートです。
+// RDFストアにVirtuoso を使う場合は必ず、USE_VIRTUOSO を true にしてください。
 /*
 $options = array(
 	"USE_SPARQL"=>true,
+    "USE_VIRTUOSO"=>false,
 	"SPARQL_REQUEST_TYPE"=>"POST",
 	"SPARQL_ENDPOINT"=>"http://localhost:8080/sparql"
 );
