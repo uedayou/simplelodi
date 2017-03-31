@@ -250,31 +250,42 @@ class SimpleLODI {
 		$loader = new Twig_Loader_Filesystem('templates');
 		$twig = new Twig_Environment($loader);
 
-		$function = new Twig_SimpleFunction('my_function', function ($val,$_data) {
-			$islink = function($text) {
+		$function = new Twig_SimpleFunction('bnode_info', function ($val,$_data) {
+			$islink = function($text,$f=true) {
+				$label = $text;
+				if ($f) {
+					$short = \EasyRdf\RdfNamespace::shorten($text);
+				$label = $short?$short:$text;
+				}
 				if ( preg_match('{^https?://.+?\.(jpg|jpeg|gif|png)$}i' ,$text ) ){
 					return '<a href="'.$text.'" target="_blank"><img src="'.$text.'" /></a>';
 				} else if (preg_match('{^https?://.+$}i', $text) ){
-					return '<a href="'.$text.'" target="_blank">'.$text.'</a>';
+					return '<a href="'.$text.'" target="_blank">'.$label.'</a>';
 				} else if (preg_match('{^mailto:.+$}i', $text) ){
-					return '<a href="'.$text.'" target="_blank">'.$text.'</a>';
+					return '<a href="'.$text.'" target="_blank">'.$label.'</a>';
 				}
 				return $text;
 			};
+			$output = "";
 			$d = $_data[$val];
-			echo "<table class='table table-bordered'>";
+			$output .= "<table class='table table-bordered'>";
 			foreach($d as $k=>$v ) {
-				echo "<tr><th>".$islink($k)."</th><td>";
+				$output .= "<tr><th class='bnode'>".$islink($k)."</th><td>";
 				foreach($v as $vo) {
-					echo $islink($vo["value"])."<br>";
+					$output .= $islink($vo["value"]);
 				}
-				echo "</td></tr>";
+				$output .= "</td></tr>";
 			}
-			echo "</table>";
+			$output .= "</table>";
+			return $output;
 		});
 		$twig->addFunction($function);
 
-		$this->getTitleFromRDF($data,$url);
+		$function2 = new Twig_SimpleFunction('shorten', function ($uri) {
+			$short = \EasyRdf\RdfNamespace::shorten($uri);
+			return $short?$short:$uri;
+		});
+		$twig->addFunction($function2);
 
 		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$url, 'title'=>$this->getTitleFromRDF($data,$url)));
 

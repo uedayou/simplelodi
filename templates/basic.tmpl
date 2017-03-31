@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style type="text/css">
+th.bnode{width:30%;}
+</style>
 </head>
 <body>
 <div class="container">
@@ -30,23 +33,23 @@
 	{% for key,val in rdfs -%}
 		<tr>
 		{% if key matches '{^https?://.+$}' -%}
-			<th><a href="{{ key }}" target="_blank">{{ key }}</a></th>
+			<th><a href="{{ key }}" target="_blank">{{ shorten(key) }}</a></th>
 		{%- else -%}
-			<th>{{ key }}</th>
+			<th>{{ shorten(key) }}</th>
 		{%- endif -%}
 
 		<td>
 			{%- for v in val -%}
 				{%- if v is defined and v.value is defined -%}
-					{% if v.type is defined and v.type == "bnode" %}
-						{{ my_function(v.value, data) }}
-					{% elseif v.value matches '{^https?://.+?\.(jpg|jpeg|gif|png)$}' -%}
+					{% if v.type is defined and v.type == "bnode" -%}
+						{{ bnode_info(v.value, data)|raw }}
+					{%- elseif v.value matches '{^https?://.+?\.(jpg|jpeg|gif|png)$}' -%}
 						<a href="{{ v.value }}" target="_blank"><img src="{{ v.value }}" /></a>
-					{% elseif v.value matches '{^https?://.+$}' -%}
-						<a href="{{ v.value }}" target="_blank">{{ v.value }}</a>
-					{% elseif v.value matches '{^mailto:.+$}' -%}
-						<a href="{{ v.value }}" target="_blank">{{ v.value }}</a>
-					{% else -%}
+					{%- elseif v.value matches '{^https?://.+$}' -%}
+						<a href="{{ v.value }}" target="_blank">{{ shorten(v.value) }}</a>
+					{%- elseif v.value matches '{^mailto:.+$}' -%}
+						<a href="{{ v.value }}" target="_blank">{{ shorten(v.value) }}</a>
+					{%- else -%}
 						{{ v.value }}
 					{%- endif -%}
 					
