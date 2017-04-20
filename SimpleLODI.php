@@ -84,7 +84,9 @@ class SimpleLODI {
 		$path_parts = pathinfo($path);
 		$this->dir = $path_parts['dirname']."/";
 		$this->dir = $this->dir=="."?"":$this->dir;
-		$this->basename = $path_parts['basename'];
+		//$this->basename = $path_parts['basename'];
+		// basename がなければ index を代入 2017.04.20
+		$this->basename = mb_strlen($path_parts['basename'])>0?$path_parts['basename']:"index";
 		$this->extension = isset($path_parts['extension'])?$path_parts['extension']:"";
 		$this->filename = $path_parts['filename'];
 
