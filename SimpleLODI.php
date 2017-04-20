@@ -81,12 +81,14 @@ class SimpleLODI {
 		$this->acceptHeader = $acceptHeader;
 		setlocale(LC_ALL, 'ja_JP.UTF-8');
 		//setlocale(LC_ALL, 'Japanese_Japan.932');
+		// ディレクトリ指定の場合はファイル名 index をつける 2017.04.20
+		if (substr($path, -1) === "/"||strlen($path)===0) {
+			$path .= "index";
+		}
 		$path_parts = pathinfo($path);
 		$this->dir = $path_parts['dirname']."/";
 		$this->dir = $this->dir=="."?"":$this->dir;
-		//$this->basename = $path_parts['basename'];
-		// basename がなければ index を代入 2017.04.20
-		$this->basename = mb_strlen($path_parts['basename'])>0?$path_parts['basename']:"index";
+		$this->basename = $path_parts['basename'];
 		$this->extension = isset($path_parts['extension'])?$path_parts['extension']:"";
 		$this->filename = $path_parts['filename'];
 
