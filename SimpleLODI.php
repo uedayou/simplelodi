@@ -291,7 +291,8 @@ class SimpleLODI {
 		});
 		$twig->addFunction($function2);
 
-		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$url, 'title'=>$this->getTitleFromRDF($data,$url)));
+		$_url = urldecode($url);
+		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$_url, 'title'=>$this->getTitleFromRDF($data,$_url)));
 
 		return $html;
 	}
