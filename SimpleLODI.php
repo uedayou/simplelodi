@@ -291,6 +291,32 @@ class SimpleLODI {
 		});
 		$twig->addFunction($function2);
 
+		$function3 = new Twig_SimpleFunction('getlatlng', function($_rdfs) {
+			$plat = "http://www.w3.org/2003/01/geo/wgs84_pos#lat";
+			$plng = "http://www.w3.org/2003/01/geo/wgs84_pos#long";
+			$lat = $lng = null;
+			if (isset($_rdfs[$plat])) {
+				$lat = $_rdfs[$plat][0]["value"];
+			}
+			if (isset($_rdfs[$plng])) {
+				$lng = $_rdfs[$plng][0]["value"];
+			}
+			if (isset($lat)&&isset($lng)){
+				return <<< EOM
+<div id="map" style="width:100%; height: 400px"></div>
+<script type="text/javascript">
+var map = L.map('map').setView([$lat, $lng], 16);
+L.tileLayer('http://tile.openstreetmap.jp/{z}/{x}/{y}.png', {
+	maxZoom: 18,
+	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+L.marker([$lat, $lng]).addTo(map);
+</script>
+EOM;
+			}
+		});
+		$twig->addFunction($function3);
+
 		$_url = urldecode($url);
 		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$_url, 'title'=>$this->getTitleFromRDF($data,$_url)));
 
