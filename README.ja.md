@@ -1,7 +1,12 @@
-# Simple LODI : Simple Linked Open Data Interface
+# Simple LODI : Simple Linked Open Data Interface(v1.0)
 
 コンテントネゴシエーションや拡張子変更により、RDFファイルをさまざまなフォーマットで出力ができるLODフロントエンドプログラムです。
 対応する入力フォーマットは、RDF/XML(拡張子：xml)、N-Triples(拡張子:nt)、Turtle(拡張子:ttl)です。
+
+### バージョン2の開発版を現在公開中です。
+
+[v2.0.0-dev](https://github.com/uedayou/simplelodi/tree/v2.0.0-dev)で公開中です。是非お試しください。
+<https://github.com/uedayou/simplelodi/tree/v2.0.0-dev>
 
 ## 対応出力フォーマット(拡張子)
 
