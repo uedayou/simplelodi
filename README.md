@@ -2,6 +2,15 @@
 
 "Simple LODI” is a PHP program which can convert RDF data to various formats. It contributes to make Linked Data.
 
+### Notice: This branch is development version(v2.0.0-dev).
+It has below features:
+- Change HTML rendering to single page application by React.
+- Change CSS library from Bootstrap to Material-UI.
+- Update RDF libraries.
+
+Demo site is here:
+<http://uedayou.net/simplelodi-v2/uedayou>
+
 ## Input file extensions
 
 - Turtle(.ttl)
