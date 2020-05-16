@@ -1,8 +1,8 @@
 <?php
 /**
  * Simple LODI : Simple Linked Open Data Interface
- *
- * Copyright (c) 2016 Hiroshi Ueda. All rights reserved.
+ * Version: v2.0.0-dev
+ * Copyright (c) 2020 Hiroshi Ueda. All rights reserved.
  *
  */
 
@@ -11,15 +11,18 @@ class SimpleLODI {
 	protected $data_dir = "data/";
 	protected $data_type = "auto"; // auto, turtle, rdfxml, ntriples, jsonld, n3
 	protected $data_extension = ".ttl";
-	protected $template_html = "basic.tmpl";
+	// Single Page Application Version
+	protected $template_html = "spa/simple-lodi-frontend.html";
+	// Server Side Rendering Version
+	// protected $template_html = "ssr/basic.tmpl";
 	protected $use_sparql = false;
 	protected $sparql_endpoint = "http://localhost/sparql";
 	protected $sparql_request_type = "POST"; // GET or POST
 	protected $sparql_use_virtuoso = false;
 
-	private $path = null;
+	protected $path = null;
 
-	private $url = null;
+	protected $url = null;
 
 	private $acceptHeader = null;
 
@@ -77,6 +80,7 @@ class SimpleLODI {
 
 	public function initialize($path,$url,$acceptHeader) {
 		if ($this->notFound) return;
+		$this->path = $path;
 		$this->url = $url;
 		$this->acceptHeader = $acceptHeader;
 		setlocale(LC_ALL, 'ja_JP.UTF-8');
@@ -118,6 +122,10 @@ class SimpleLODI {
 
 		$format = \EasyRdf\Format::getFormat($format);
 		$output = $graph->serialise($format);
+
+		if (preg_match('/json/i', $format)) {
+			$output = json_encode(json_decode($output, true), JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+		}
 
 		if (!is_scalar($output)) {
 			// HTML に変換する
@@ -318,13 +326,26 @@ EOM;
 		$twig->addFunction($function3);
 
 		$_url = urldecode($url);
-		$html = $twig->render($this->template_html, array('data'=>$data, 'url'=>$_url, 'title'=>$this->getTitleFromRDF($data,$_url)));
+		$html = $twig->render($this->template_html, 
+			array('data'=>$data, 
+				'url'=>$_url,
+				'namespaces'=>\EasyRdf\RdfNamespace::namespaces(),
+				'title'=>$this->getTitleFromRDF($data,$_url)));
 
 		return $html;
 	}
 
 	function getTitleFromRDF($data, $url) {
-		$d = $data[$url];
+		if (isset($data[$url])) {
+			$d = $data[$url];
+		} else {
+			if (preg_match("/^https:\/\//i", $url)) {
+				$_url = preg_replace("/^https:\/\//i", "http://", $url);
+			} else {
+				$_url = preg_replace("/^http:\/\//i", "https://", $url);
+			}
+			if (isset($data[$_url])) $d = $data[$_url];
+		}
 		$lprops = array(
 			"http://xmlns.com/foaf/0.1/name",
 			"http://purl.org/dc/elements/1.1/title",
@@ -337,7 +358,7 @@ EOM;
 				return $d[$p][0]["value"];
 			}
 		}
-		return $url;
+		return null;
 	}
 
 	function getFormat($value) {

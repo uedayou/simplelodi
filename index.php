@@ -1,5 +1,5 @@
 <?php
-
+// ini_set('display_errors', "On");
 require_once 'simplelodi_loader.php';
 require_once 'SimpleLODI.php';
 
