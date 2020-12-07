@@ -1,17 +1,7 @@
-# Simple LODI : Simple Linked Open Data Interface
+# Simple LODI : Simple Linked Open Data Interface(v2.1.0)
 
 コンテントネゴシエーションや拡張子変更により、RDFファイルをさまざまなフォーマットで出力ができるLODフロントエンドプログラムです。
 対応する入力フォーマットは、RDF/XML(拡張子：xml)、N-Triples(拡張子:nt)、Turtle(拡張子:ttl)です。
-
-### 注意：このブランチは開発中です(v2.0.0-dev).
-現master(v1.0)から以下を変更しています:
-- HTMLの描画をサーバサイドレンダリング(SSR)からシングルページアプリケーション(SPA)に変更しました
-- SPAはReactで記述しています
-- UI部分を Bootstrap から Material-UI に変更しました
-- RDFのライブラリのバージョンを更新しました
-
-v2.0.0-devのデモサイトは以下になります。
-<http://uedayou.net/simplelodi-v2/uedayou>
 
 ## 対応出力フォーマット(拡張子)
 
@@ -25,27 +15,27 @@ v2.0.0-devのデモサイトは以下になります。
 
 ## 環境
 
-- PHP 5.4以上
+- PHP 7.1以上
 - mod_rewrite
 
 ## デモ
 
-<http://uedayou.net/simplelodi/uedayou>
+<http://uedayou.net/simplelodi-v2/uedayou>
 
 HTML出力  
-<http://uedayou.net/simplelodi/uedayou.html>
+<http://uedayou.net/simplelodi-v2/uedayou.html>
 
 Turtle出力  
-<http://uedayou.net/simplelodi/uedayou.ttl>
+<http://uedayou.net/simplelodi-v2/uedayou.ttl>
 
 XML出力  
-<http://uedayou.net/simplelodi/uedayou.xml>
+<http://uedayou.net/simplelodi-v2/uedayou.xml>
 
 JSON出力  
-<http://uedayou.net/simplelodi/uedayou.json>
+<http://uedayou.net/simplelodi-v2/uedayou.json>
 
 JSON-LD出力  
-<http://uedayou.net/simplelodi/uedayou.jsonld>
+<http://uedayou.net/simplelodi-v2/uedayou.jsonld>
 
 ## インストール・使い方(Turtleファイルの場合)
 
@@ -68,6 +58,7 @@ JSON-LD出力
 - [IRI](https://github.com/lanthaler/IRI)
 - [Negotiation](http://williamdurand.fr/Negotiation/)
 - [Twig](http://twig.sensiolabs.org/)
+- [aws-sdk-php](https://github.com/aws/aws-sdk-php)
 
 ## 注意
 

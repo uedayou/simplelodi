@@ -1,15 +1,6 @@
-# Simple LODI : Simple Linked Open Data Interface
+# Simple LODI : Simple Linked Open Data Interface(v2.1.0)
 
 "Simple LODI” is a PHP program which can convert RDF data to various formats. It contributes to make Linked Data.
-
-### Notice: This branch is development version(v2.0.0-dev).
-It has below features:
-- Change HTML rendering to single page application by React.
-- Change CSS library from Bootstrap to Material-UI.
-- Update RDF libraries.
-
-Demo site is here:
-<http://uedayou.net/simplelodi-v2/uedayou>
 
 ## Input file extensions
 
@@ -29,27 +20,27 @@ Demo site is here:
 
 ## Requirements:
 
-- PHP 5.4 or later
+- PHP 7.1 or later
 - mod_rewrite
 
 ## Examples
 
-<http://uedayou.net/simplelodi/uedayou>
+<http://uedayou.net/simplelodi-v2/uedayou>
 
 HTML  
-<http://uedayou.net/simplelodi/uedayou.html>
+<http://uedayou.net/simplelodi-v2/uedayou.html>
 
 Turtle  
-<http://uedayou.net/simplelodi/uedayou.ttl>
+<http://uedayou.net/simplelodi-v2/uedayou.ttl>
 
 RDF/XML  
-<http://uedayou.net/simplelodi/uedayou.xml>
+<http://uedayou.net/simplelodi-v2/uedayou.xml>
 
 JSON  
-<http://uedayou.net/simplelodi/uedayou.json>
+<http://uedayou.net/simplelodi-v2/uedayou.json>
 
 JSON-LD  
-<http://uedayou.net/simplelodi/uedayou.jsonld>
+<http://uedayou.net/simplelodi-v2/uedayou.jsonld>
 
 ## Installation
 
