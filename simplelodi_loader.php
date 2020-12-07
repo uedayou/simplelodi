@@ -3,15 +3,15 @@
 include 'lib/Twig/Autoloader.php';
 Twig_Autoloader::register();
 
-include 'lib/Negotiation/AbstractNegotiator.php';
-include 'lib/Negotiation/Match.php';
-include 'lib/Negotiation/BaseAccept.php';
-include 'lib/Negotiation/Exception/Exception.php';
-include 'lib/Negotiation/Exception/InvalidArgument.php';
-include 'lib/Negotiation/Exception/InvalidMediaType.php';
-include 'lib/Negotiation/AcceptHeader.php';
-include 'lib/Negotiation/Accept.php';
-include 'lib/Negotiation/Negotiator.php';
+include 'lib/Negotiation/src/Negotiation/AbstractNegotiator.php';
+include 'lib/Negotiation/src/Negotiation/Match.php';
+include 'lib/Negotiation/src/Negotiation/BaseAccept.php';
+include 'lib/Negotiation/src/Negotiation/Exception/Exception.php';
+include 'lib/Negotiation/src/Negotiation/Exception/InvalidArgument.php';
+include 'lib/Negotiation/src/Negotiation/Exception/InvalidMediaType.php';
+include 'lib/Negotiation/src/Negotiation/AcceptHeader.php';
+include 'lib/Negotiation/src/Negotiation/Accept.php';
+include 'lib/Negotiation/src/Negotiation/Negotiator.php';
 
 include 'lib/IRI/IRI.php';
 include 'lib/JsonLD/GraphInterface.php';
@@ -67,5 +67,8 @@ include 'lib/easyrdf/lib/Literal/HTML.php';
 include 'lib/easyrdf/lib/Literal/Integer.php';
 include 'lib/easyrdf/lib/Literal/XML.php';
 include 'lib/easyrdf/lib/Graph.php';
+
+// add 2020.05.10
+include 'lib/easyrdf/lib/Collection.php';
 
 ?>
