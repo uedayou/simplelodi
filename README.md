@@ -20,7 +20,7 @@
 
 ## Requirements:
 
-- PHP 7.1 or later
+- PHP 7.2.5 or later
 - mod_rewrite
 
 ## Examples
@@ -73,6 +73,48 @@ JSON
 JSON-LD  
 `http://your-domain.com/your-folder-name/your-file-name.jsonld`
 
+
+## How to deploy on Amazon Web Service
+
+It can deploy on Amazon Web Service's serverless environments.
+It will be created like below:
+
+```
+Amazon API Gateway -- AWS Lambda
+```
+
+(1) Install AWS CLI and AWS SAM CLI
+
+<https://aws.amazon.com/cli/>
+<https://aws.amazon.com/serverless/sam/>
+
+(2) Create the SAM package
+
+Create the package of SAM by the following command.
+
+```
+$ sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket [your_s3_bucket_for_aws_sam]
+```
+
+(3) Deploy
+
+Deploy the package on AWS.
+
+```
+$ sam deploy --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name [your_stack_name]
+```
+
+After completing deployment, The URL of API Gateway will be shown.
+
+```
+CloudFormation outputs from deployed stack
+-------------------------------------------------------
+Outputs
+-------------------------------------------------------
+Key                 SimpleLodiApi
+Description         -
+Value               https://xxxxxxxxxx.execute-api.[region].amazonaws.com/Prod/
+```
 
 ## Notice
 

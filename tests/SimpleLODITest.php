@@ -39,6 +39,22 @@ class SimpleLODITest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    public function testJsonld()
+    {
+        $path = "uedayou";
+        $url = "http://uedayou.net/simplelodi/uedayou";
+        $acceptHeader = "application/ld+json";
+        $options = array();
+        $prefixes = array();
+        $simplelodi = new SimpleLODI($options, $prefixes);
+        $simplelodi->initialize($path, $url, $acceptHeader);
+        ob_start();
+        $simplelodi->output(true);
+        $actual = ob_get_clean();
+        $expected = '[{"@id":"http://uedayou.net/"},{"@id":"http://uedayou.net/simplelodi/uedayou","@type":["http://xmlns.com/foaf/0.1/Person"],"http://xmlns.com/foaf/0.1/mbox":[{"@id":"mailto:yooueda@gmail.com"}],"http://xmlns.com/foaf/0.1/homepage":[{"@id":"http://uedayou.net/"}],"http://xmlns.com/foaf/0.1/name":[{"@value":"Hiroshi Ueda"}],"http://xmlns.com/foaf/0.1/Image":[{"@id":"http://uedayou.net/uedayou.jpg"}]},{"@id":"http://uedayou.net/uedayou.jpg"},{"@id":"http://xmlns.com/foaf/0.1/Person"},{"@id":"mailto:yooueda@gmail.com"}]';
+        $this->assertEquals($expected, $actual);
+    }
+
     public function testXml()
     {
         $path = "uedayou";

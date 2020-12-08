@@ -1,6 +1,6 @@
 <?php
 /**
- * Simple LODI for AWS S3 : Simple Linked Open Data Interface
+ * Simple LODI for AWS S3
  * Version: v2.1.0
  * Copyright (c) 2020 uedayou. All rights reserved.
  *
@@ -82,7 +82,6 @@ class SimpleLODIS3 extends SimpleLODI {
 		}
 		$graph->parse($text, $type);
 	}
-
 
 	private function getS3Object($key) {
 		try {

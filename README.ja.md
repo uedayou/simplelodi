@@ -15,7 +15,7 @@
 
 ## 環境
 
-- PHP 7.1以上
+- PHP 7.2.5以上
 - mod_rewrite
 
 ## デモ
@@ -50,6 +50,51 @@ JSON-LD出力
 あわせて、こちらもご覧ください。　　
 
 [比較的簡単にDBpediaのようにLinked Open Data(LOD)を公開する方法](http://qiita.com/uedayou/items/d66b7c406f1f231347f5)
+
+## Amazon Web Service上での利用
+
+SimpleLODIはAWS SAMを利用してサーバレス環境で動作させることも可能です。
+以下をデプロイするとAWSクラウド上に以下のような環境が作成されます。
+
+```
+Amazon API Gateway -- AWS Lambda
+```
+
+(1) AWS CLI と AWS SAM CLI のインストール
+
+AWS CLI と AWS SAM CLI をあらかじめインストールしておいてください。
+
+<https://aws.amazon.com/cli/>
+<https://aws.amazon.com/serverless/sam/>
+
+(2) SAMパッケージ作成
+
+以下のコマンドにより、SimpleLODIをパッケージ化してください。
+
+```
+$ sam package --template-file template.yaml --output-template-file packaged.yaml --s3-bucket [AWS SAM用のS3バケット名]
+```
+
+(3) デプロイ
+
+パッケージ化したファイルをAWS上にデプロイします。
+
+```
+$ sam deploy --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name [スタック名]
+```
+
+デプロイが完了したら以下のように表示されます。
+`SimpleLodiApi` の値がサーバのURLとなります。
+
+```
+CloudFormation outputs from deployed stack
+-------------------------------------------------------
+Outputs
+-------------------------------------------------------
+Key                 SimpleLodiApi
+Description         -
+Value               https://xxxxxxxxxx.execute-api.[リージョン名].amazonaws.com/Prod/
+```
 
 ## 利用ライブラリ
 
