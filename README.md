@@ -1,5 +1,7 @@
 # Simple LODI : Simple Linked Open Data Interface(v2.1.0)
 
+[![Test](https://github.com/uedayou/simplelodi/workflows/Test/badge.svg)](https://github.com/uedayou/simplelodi/actions?query=workflow%3ATest)
+
 "Simple LODI” is a PHP program which can convert RDF data to various formats. It contributes to make Linked Data.
 
 ## Input file extensions
