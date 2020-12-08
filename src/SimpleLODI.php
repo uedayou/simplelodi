@@ -2,7 +2,7 @@
 /**
  * Simple LODI : Simple Linked Open Data Interface
  * Version: v2.1.0
- * Copyright (c) 2020 uedayou. All rights reserved.
+ * Copyright (c) 2020 uedayou.
  *
  */
 

@@ -2,7 +2,7 @@
 /**
  * Simple LODI for AWS S3
  * Version: v2.1.0
- * Copyright (c) 2020 uedayou. All rights reserved.
+ * Copyright (c) 2020 uedayou.
  *
  */
 require_once __DIR__.'/SimpleLODI.php';
