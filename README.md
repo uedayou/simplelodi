@@ -51,7 +51,7 @@ JSON-LD
 (2) Put it on your web server.
     You can change the folder name as you want.
 
-(3) Put your RDF file(Turtle, RDF/XML or N-Triples) in `data` folder.
+(3) Put your RDF file(Turtle, RDF/XML or N-Triples) in `src/data` folder.
 
 (4) Run your browser and enter the following URL:  
 `http:// ... /your-folder-name/your-file-name(file name without the extension)`
