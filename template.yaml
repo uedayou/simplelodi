@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: SimpleLODI AWS Serverless
+Transform: AWS::Serverless-2016-10-31
+Globals:
+  Function:
+    Timeout: 30
+  Api:
+    OpenApiVersion: 3.0.2
+    Cors:
+      AllowMethods: "'OPTIONS,POST,GET'"
+      AllowHeaders: "'Origin, Authorization, Accept, Content-Type'"
+      AllowOrigin: "'*'"
+
+Resources:
+  SimpleLodiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-lambda-function
+      Description: SimpleLODI Lambda Function
+      CodeUri: src
+      Runtime: provided
+      Handler: lambda-handler.php
+      MemorySize: 512
+      Tracing: Active
+      Policies:
+        - AmazonS3ReadOnlyAccess
+      Layers:
+        - !Sub arn:aws:lambda:${AWS::Region}:887080169480:layer:php73:3
+      Events:
+        api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+
+Outputs:
+  SimpleLodiApi:
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  SimpleLodiFunction:
+    Value: !GetAtt SimpleLodiFunction.Arn
+  SimpleLodiFunctionIamRole:
+    Value: !GetAtt SimpleLodiFunctionRole.Arn

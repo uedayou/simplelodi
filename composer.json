@@ -1,0 +1,27 @@
+{
+    "name": "uedayou/simplelodi",
+    "authors": [
+        {
+            "name": "uedayou",
+            "email": "yooueda@gmail.com"
+        }
+    ],
+    "description": "SimpleLODI is a PHP program which can convert RDF data to various formats. It contributes to make Linked Data.",
+    "config": {
+    	"vendor-dir": "src/vendor"
+    },
+    "scripts": {
+        "test": "src/vendor/bin/phpunit"
+    },
+    "require": {
+        "easyrdf/easyrdf": "^1.1",
+        "ml/iri": "^1.1",
+        "ml/json-ld": "^1.2",
+        "twig/twig": "^3.1",
+        "willdurand/negotiation": "^3.0",
+        "aws/aws-sdk-php": "^3.166"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    }
+}

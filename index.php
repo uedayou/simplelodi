@@ -1,7 +1,7 @@
 <?php
 // ini_set('display_errors', "On");
-require_once 'simplelodi_loader.php';
-require_once 'SimpleLODI.php';
+require __DIR__.'/src/vendor/autoload.php';
+require_once __DIR__.'/src/SimpleLODI.php';
 
 // デバッグフラグ
 define("DEBUG", false);
