@@ -11,6 +11,8 @@ $path = urldecode($path);
 $url = DEBUG?"http://uedayou.net/simplelodi/uedayou":(empty($_SERVER["HTTPS"])?"http://":"https://").$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
 
+//echo $path."\n";
+
 // デフォルトはxml,nt,ttlのいずれかの拡張子を自動識別して、
 // 拡張子に対応した解析方式 (rdf/xml、n-triples、turtle) により解析します。
 $options = array();
