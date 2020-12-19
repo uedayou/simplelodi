@@ -37,6 +37,8 @@ class SimpleLODI {
 
 	protected $unicode_unescape = true; 
 
+	protected $gzip_mode = false;
+
 	protected $mediaType = 'text/html';
 
 	public $notFound = false;
@@ -183,7 +185,12 @@ class SimpleLODI {
 		}
 		if ($this->encoding_autodetectmode) {
 			// 文字コード自動判別モード
-			$text = file_get_contents($path);
+			$text;
+			if ($this->gzip_mode) {
+				$text = $this->getGZipRdfFile($path);
+			} else {
+				$text = file_get_contents($path);
+			}
 			$encoding = false;
 			foreach(array('UTF-8','SJIS-win','SJIS','EUC-JP','ASCII','JIS') as $ccode){
 				if(strcmp(mb_convert_encoding($text, $ccode, $ccode),$text)==0){
@@ -198,8 +205,19 @@ class SimpleLODI {
 			$text = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $text);
 			$graph->parse($text, $type);
 		} else {
-			$graph->parseFile($path, $type);
+			if ($this->gzip_mode) {
+				$text = $this->getGZipRdfFile($path);
+				$graph->parse($text, $type);
+			} else {
+				$graph->parseFile($path, $type);
+			}
 		}
+	}
+
+	protected function getGZipRdfFile($path) {
+		$text = file_get_contents($path);
+		$text = gzdecode($text);
+		return $text;
 	}
 
 	protected function searchRdfFilePath() {
@@ -223,6 +241,9 @@ class SimpleLODI {
 
 	private function getRdfFilePath($extension) {
 		$path = $this->root_dir.$this->data_dir.$this->dir.$this->filename.$extension;
+		if ($this->gzip_mode) {
+			$path .= ".gz";
+		}
 		if (!file_exists($path)) {
 			// ファイルがないとき
 			$path = $this->root_dir.$this->data_dir.$this->dir.$this->basename.$extension;
