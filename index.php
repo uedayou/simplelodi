@@ -6,7 +6,7 @@ require_once __DIR__.'/src/SimpleLODI.php';
 // デバッグフラグ
 define("DEBUG", false);
 
-$path = DEBUG?"uedayou.ttl":$_GET["path"];
+$path = DEBUG?"uedayou.ttl":(empty($_GET["path"])?"index":$_GET["path"]);
 $path = urldecode($path);
 $url = DEBUG?"http://uedayou.net/simplelodi/uedayou":(empty($_SERVER["HTTPS"])?"http://":"https://").$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $acceptHeader = DEBUG?"application/turtle":$_SERVER['HTTP_ACCEPT'];
