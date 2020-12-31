@@ -165,7 +165,7 @@ class SimpleLODI {
 		return $graph;
 	}
 
-	private function setGraphFromFilesystem(&$graph) {
+	protected function setGraphFromFilesystem(&$graph) {
 		$path = $type = false;
 		if($this->data_type=="auto") {
 			$rt = $this->searchRdfFilePath();
@@ -239,7 +239,7 @@ class SimpleLODI {
 		return false;
 	}
 
-	private function getRdfFilePath($extension) {
+	protected function getRdfFilePath($extension) {
 		$path = $this->root_dir.$this->data_dir.$this->dir.$this->filename.$extension;
 		if ($this->gzip_mode) {
 			$path .= ".gz";
