@@ -46,7 +46,13 @@ class SimpleLODIS3 extends SimpleLODI {
 		return $graph;
 	}
 
-	private function setGraphFromS3(&$graph) {
+	protected function getGZipRdfFile($path) {
+		$text =  $this->getS3Object($path);
+		$text = gzdecode($text);
+		return $text;
+	}
+
+	protected function setGraphFromS3(&$graph) {
 		$path = $type = false;
 		if($this->data_type=="auto") {
 			$rt = $this->searchRdfFilePath();
@@ -64,7 +70,12 @@ class SimpleLODIS3 extends SimpleLODI {
 			$this->show404();
 			return;
 		}
-		$text = $this->getS3Object($path);
+		$text;
+		if ($this->gzip_mode) {
+			$text = $this->getGZipRdfFile($path);
+		} else {
+			$text = $this->getS3Object($path);
+		}
 		if ($this->encoding_autodetectmode) {
 			// 文字コード自動判別モード
 			$encoding = false;
@@ -81,6 +92,13 @@ class SimpleLODIS3 extends SimpleLODI {
 			$text = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $text);
 		}
 		$graph->parse($text, $type);
+	}
+
+	protected function isFileExists($path) {
+		return $this->s3->doesObjectExist(
+			$this->AWS_S3_BUCKET, 
+			$path
+		);
 	}
 
 	private function getS3Object($key) {

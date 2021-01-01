@@ -96,7 +96,7 @@ class SimpleLODI {
 		}
 		$path_parts = pathinfo($path);
 		$this->dir = $path_parts['dirname']."/";
-		$this->dir = $this->dir=="."?"":$this->dir;
+		$this->dir = $this->dir=="./"?"":$this->dir;
 		$this->basename = $path_parts['basename'];
 		$this->extension = isset($path_parts['extension'])?$path_parts['extension']:"";
 		$this->filename = $path_parts['filename'];
@@ -244,15 +244,19 @@ class SimpleLODI {
 		if ($this->gzip_mode) {
 			$path .= ".gz";
 		}
-		if (!file_exists($path)) {
+		if (!$this->isFileExists($path)) {
 			// ファイルがないとき
 			$path = $this->root_dir.$this->data_dir.$this->dir.$this->basename.$extension;
-			if (!file_exists($path)) {
+			if (!$this->isFileExists($path)) {
 				// ファイルがないとき
 				return false;
 			}
 		}
 		return $path;
+	}
+
+	protected function isFileExists($path) {
+		return file_exists($path);
 	}
 
 	private function setGraphFromSparql(&$graph) {
