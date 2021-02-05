@@ -167,6 +167,8 @@ class SimpleLODI {
 
 	protected function setGraphFromFilesystem(&$graph) {
 		$path = $type = false;
+		// data_type から data_extension 指定
+		$this->data_extension = $this->getExtensionByDataType($this->data_type);
 		if($this->data_type=="auto") {
 			$rt = $this->searchRdfFilePath();
 			if (is_array($rt)) {
@@ -286,6 +288,28 @@ class SimpleLODI {
 		}
 		//$graph->parse($text, "turtle");
 		$graph->parse($text, "ntriples");
+	}
+
+	protected function getExtensionByDataType($type) {
+		$extension = ".ttl";
+		switch ($type) {
+			case "rdfxml":
+				$extension = ".xml";
+				break;
+			case "ntriples":
+				$extension = ".nt";
+				break;
+			case "jsonld":
+				$extension = ".jsonld";
+				break;
+			case "n3":
+				$extension = ".n3";
+				break;
+			case "turtle":
+			default:
+				break;
+		}
+		return $extension;
 	}
 
 	protected function getSparqlQuery() {
